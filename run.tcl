@@ -35,6 +35,8 @@ proc create_new_project {project target top_module} {
 		rtl/top.v
 		rtl/vga_timing.v
 		rtl/draw_background.v
+		rtl/clk_wiz_0.v
+		rtl/clk_wiz_0_clk_wiz.v
     }
     
     # Specify vhdl design files location      -- EDIT
@@ -49,7 +51,8 @@ proc create_new_project {project target top_module} {
 
     # Specify simulation files location       -- EDIT
     add_files -fileset sim_1 {
-		
+		sim/testbench.v
+		sim/tiff_writer.v
     }
 
     set_property top ${top_module} [current_fileset]
