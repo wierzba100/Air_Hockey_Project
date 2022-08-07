@@ -21,25 +21,36 @@ module testbench;
   wire pclk_mirror;
   wire vs, hs;
   wire [3:0] r, g, b;
+  wire clk_94_5Mhz, locked, clk_out2, clk_out3;
 
   // Instantiate the vga_example module.
   
-  vga_example my_example (
+  top my_example (
     .clk(clk),
     .rst(rst),
     .vs(vs),
     .hs(hs),
     .r(r),
     .g(g),
-    .b(b),
-    .pclk_mirror(pclk_mirror)
+    .b(b)
   );
-
+   
+   clk_wiz_0 u_clk_wiz_0 (
+      //input
+      .clk_in(clk),
+      .reset(rst),
+      //output
+      .clk_94_5Mhz(clk_94_5Mhz),
+      .clk_out2(clk_out2),
+      .clk_out3(clk_out3),
+      .locked(locked)
+    
+    );
 
   // Instantiate the tiff_writer module.
 
   tiff_writer my_writer (
-    .pclk_mirror(pclk_mirror),
+    .pclk_mirror(clk_out3),
     .r({r,r}), // fabricate an 8-bit value
     .g({g,g}), // fabricate an 8-bit value
     .b({b,b}), // fabricate an 8-bit value

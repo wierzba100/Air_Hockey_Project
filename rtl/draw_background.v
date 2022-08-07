@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module draw_background(
-    input wire pclk,
+    input wire clk_in,
     input wire [10:0] hcount_in,
     input wire hsync_in,
     input wire hblnk_in,
@@ -19,7 +19,7 @@ module draw_background(
     output reg [3:0] b_out
     );
     
-    always @(posedge pclk)
+    always @(posedge clk_in)
     begin
     // Just pass these through.
         hsync_out <= hsync_in;
@@ -36,11 +36,11 @@ module draw_background(
           // Active display, top edge, make a yellow line.
           if (vcount_out == 0) {r_out,g_out,b_out} <= 12'hf_f_0;
           // Active display, bottom edge, make a red line.
-          else if (vcount_out == 599) {r_out,g_out,b_out} <= 12'hf_0_0;
+          else if (vcount_out == 767) {r_out,g_out,b_out} <= 12'hf_0_0;
           // Active display, left edge, make a green line.
           else if (hcount_out == 0) {r_out,g_out,b_out} <= 12'h0_f_0;
           // Active display, right edge, make a blue line.
-          else if (hcount_out == 799) {r_out,g_out,b_out} <= 12'h0_0_f;
+          else if (hcount_out == 1023) {r_out,g_out,b_out} <= 12'h0_0_f;
           // Active display, interior, fill with gray.
           else {r_out,g_out,b_out} <= 12'h8_8_8;    
        end

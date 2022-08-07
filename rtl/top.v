@@ -31,7 +31,7 @@ module top (
   );
   
   vga_timing u_vga_timing (
-    .pclk(clk_out3),
+    .clk_in(clk_out3),
     .rst(rst),
     .vcount(vcount_out [0]),
     .vsync(vsync_out [0]),
@@ -43,8 +43,7 @@ module top (
   
   draw_background u_draw_background (
     //input
-    .pclk(clk_out3),
-    .rst(rst),
+    .clk_in(clk_out3),
     .hcount_in(hcount_out [0]),
     .hsync_in(hsync_out [0]),
     .hblnk_in(hblnk_out [0]),
@@ -58,7 +57,9 @@ module top (
     .vcount_out(vcount_out [1]),
     .vsync_out(vsync_out [1]),
     .vblnk_out(vblnk_out [1]),
-    .rgb_out(rgb_out)
+    .r_out(r_out[0]),
+    .g_out(g_out[0]),
+    .b_out(b_out[0])
   );
   
 
@@ -66,7 +67,7 @@ always @(posedge clk_out3)
   begin
     vs <= vsync_out [1];
     hs <= hsync_out [1];
-    {r,g,b} <= rgb_out;
+    {r,g,b} <= {r_out[0], g_out[0], b_out[0]};
   end
 
 
