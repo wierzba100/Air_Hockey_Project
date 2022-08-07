@@ -33,6 +33,8 @@ proc create_new_project {project target top_module} {
     # Specify verilog design files location   -- EDIT
     read_verilog {
 		rtl/top.v
+		rtl/vga_timing.v
+		rtl/draw_background.v
     }
     
     # Specify vhdl design files location      -- EDIT
