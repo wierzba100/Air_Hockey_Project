@@ -13,22 +13,22 @@ module vga_timing (
   output reg hblnk,
 
   //inputs
-  input wire pclk,
+  input wire pclk_65MHz,
   input wire rst //added
   );
 //********************************************************************//
 
   //local parameters
-  localparam HOR_TOTAL_TIME = 1056;
-  localparam VER_TOTAL_TIME = 628;
-  localparam HOR_SYNC_START = 840;
-  localparam VER_SYNC_START = 601;
-  localparam HOR_SYNC_TIME = 128;
-  localparam VER_SYNC_TIME = 4;
-  localparam HOR_BLANK_START = 800;
-  localparam VER_BLANK_START = 600;
-  localparam HOR_BLANK_TIME = 256;
-  localparam VER_BLANK_TIME = 28;
+  localparam HOR_TOTAL_TIME  = 1376;
+  localparam VER_TOTAL_TIME  = 809 ;
+  localparam HOR_SYNC_START  = 1072;
+  localparam VER_SYNC_START  = 769;
+  localparam HOR_SYNC_TIME   = 96;
+  localparam VER_SYNC_TIME   = 3;
+  localparam HOR_BLANK_START = 1024;
+  localparam VER_BLANK_START = 768;
+  localparam HOR_BLANK_TIME  = 352;
+  localparam VER_BLANK_TIME  = 40; 
 
   //registers
   reg [11:0] hcount_nxt;
