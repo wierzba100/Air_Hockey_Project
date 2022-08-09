@@ -22,13 +22,13 @@ module vga_timing (
   localparam HOR_TOTAL_TIME = 1344;
   localparam VER_TOTAL_TIME = 806;
   localparam HOR_SYNC_START = 1048;
-  localparam VER_SYNC_START = 769;
+  localparam VER_SYNC_START = 771;
   localparam HOR_SYNC_TIME = 136;
   localparam VER_SYNC_TIME = 6;
   localparam HOR_BLANK_START = 1024;
   localparam VER_BLANK_START = 768;
-  localparam HOR_BLANK_TIME = 160;
-  localparam VER_BLANK_TIME = 29;
+  localparam HOR_BLANK_TIME = 320;
+  localparam VER_BLANK_TIME = 38;
 
   //registers
   reg [11:0] hcount_nxt;
@@ -41,7 +41,7 @@ module vga_timing (
   always @(posedge clk_in) begin
     if (rst) begin
       hcount <= 0;
-      vcount <= 0
+      vcount <= 0;
       hsync <= 0;
       vsync <= 0;
       hblnk <= 0;

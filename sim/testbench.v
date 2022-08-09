@@ -28,6 +28,7 @@ module testbench;
   top my_example (
     .clk(clk),
     .rst(rst),
+    .pclk_mirror(pclk_mirror),
     .vs(vs),
     .hs(hs),
     .r(r),
@@ -50,13 +51,13 @@ module testbench;
   // Instantiate the tiff_writer module.
 
   tiff_writer my_writer (
-    .pclk_mirror(clk_out3),
+    .pclk_mirror(pclk_mirror),
     .r({r,r}), // fabricate an 8-bit value
     .g({g,g}), // fabricate an 8-bit value
     .b({b,b}), // fabricate an 8-bit value
     .go(vs),
-    .xdim(16'd1056),
-    .ydim(16'd628)
+    .xdim(16'd1344),
+    .ydim(16'd806)
   );
 
   // Describe a process that generates a clock
