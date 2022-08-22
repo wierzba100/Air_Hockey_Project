@@ -8,17 +8,19 @@ module top (
   output reg hs,
   output reg [3:0] r,
   output reg [3:0] g,
-  output reg [3:0] b
+  output reg [3:0] b,
+  inout PS2Clk,
+  inout PS2Data
   );
     
     
 
-  wire [11:0] vcount_in [2:0], hcount_in [2:0], vcount_out [2:0], hcount_out [2:0];
-  wire [2:0] vsync_in, hsync_in, hsync_out, vsync_out;
-  wire [2:0] vblnk_in, hblnk_in, hblnk_out, vblnk_out;
-  wire [3:0] r_in [2:0],g_in [2:0],b_in [2:0], r_out [2:0],g_out [2:0],b_out [2:0];
+  wire [11:0] vcount_out [2:0], hcount_out [2:0];
+  wire [2:0] hsync_out, vsync_out;
+  wire [2:0] hblnk_out, vblnk_out;
   wire clk_94_5Mhz, locked, clk_out2, clk_out3;
-  wire [11:0] rgb_out;
+  wire [11:0] rgb_out[2:0];
+  wire [11:0] xpos[2:0],ypos[2:0];
   
   clk_wiz_0 u_clk_wiz_0 (
     //input
@@ -39,6 +41,18 @@ module top (
     .D2(1'b0),
     .R(1'b0),
     .S(1'b0)
+  );
+  
+  MouseCtl u_MouseCtl (
+      //input
+      .clk(clk_94_5Mhz),
+      .rst(rst),
+      //inout
+      .ps2_clk(PS2Clk),
+      .ps2_data(PS2Data),
+      //output
+      .xpos(xpos[0]),
+      .ypos(ypos[0])
   );
   
   vga_timing u_vga_timing (
@@ -68,18 +82,46 @@ module top (
     .vcount_out(vcount_out [1]),
     .vsync_out(vsync_out[1]),
     .vblnk_out(vblnk_out [1]),
-    .r_out(r_out[0]),
-    .g_out(g_out[0]),
-    .b_out(b_out[0])
+    .rgb_out(rgb_out [1])
   );
+
+    draw_circle u_draw_circle (
+        //input
+        .clk_in(clk_out3),
+        .rst(rst),
+        .hcount_in(hcount_out[1]),
+        .hsync_in(hsync_out[1]),
+        .hblnk_in(hblnk_out[1]),
+        .vcount_in(vcount_out[1]),
+        .vsync_in(vsync_out[1]),
+        .vblnk_in(vblnk_out[1]),
+        .rgb_in(rgb_out[1]),
+        .xpos(xpos[1]),
+        .ypos(ypos[1]),
+        //output
+        .hcount_out(hcount_out[2]),
+        .hsync_out(hsync_out[2]),
+        .hblnk_out(hblnk_out[2]),
+        .vcount_out(vcount_out[2]),
+        .vsync_out(vsync_out[2]),
+        .vblnk_out(vblnk_out[2]),
+        .rgb_out(rgb_out[2])
+      );
+    
+    draw_circle_ctl u_draw_circle_ctl (
+        .clk(clk_out3),
+        .rst(rst),
+        .mouse_xpos(xpos[0]),
+        .mouse_ypos(ypos[0]),
+        .xpos(xpos[1]),
+        .ypos(ypos[1])
+    );
 
 always@*
 begin
     vs = vsync_out[1];
     hs = hsync_out[1];
-    r = r_out[0];
-    g = g_out[0];
-    b = b_out[0];
+    {r, g, b} = rgb_out[2];
 end
 
 

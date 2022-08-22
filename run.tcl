@@ -37,12 +37,15 @@ proc create_new_project {project target top_module} {
 		rtl/draw_background.v
 		rtl/clk_wiz_0.v
 		rtl/clk_wiz_0_clk_wiz.v
+		rtl/draw_circle_ctl.v
+		rtl/draw_cirlce.v
     }
     
     # Specify vhdl design files location      -- EDIT
-#    read_vhdl {
-#
-#    }
+    read_vhdl {
+		rtl/MouseCtl.vhd
+		rtl/Ps2Interface.vhd
+    }
     
 #    # Specify files for memory initialization -- EDIT
 #    read_mem {

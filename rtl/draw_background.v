@@ -14,9 +14,7 @@ module draw_background(
     output reg [11:0] vcount_out,
     output reg vsync_out,
     output reg vblnk_out,
-    output reg [3:0] r_out,
-    output reg [3:0] g_out,
-    output reg [3:0] b_out
+    output reg [11:0] rgb_out
     );
     
     always @(posedge clk_in)
@@ -30,19 +28,19 @@ module draw_background(
         vcount_out <= vcount_in;
         
         // During blanking, make it it black.
-        if (vblnk_out || hblnk_out) {r_out,g_out,b_out} <= 12'h0_0_0; 
+        if (vblnk_out || hblnk_out) rgb_out <= 12'h0_0_0; 
         else
         begin
           // Active display, top edge, make a yellow line.
-          if (vcount_out == 0) {r_out,g_out,b_out} <= 12'hf_f_0;
+          if (vcount_out == 0) rgb_out <= 12'hf_f_0;
           // Active display, bottom edge, make a red line.
-          else if (vcount_out == 767) {r_out,g_out,b_out} <= 12'hf_0_0;
+          else if (vcount_out == 767) rgb_out <= 12'hf_0_0;
           // Active display, left edge, make a green line.
-          else if (hcount_out == 0) {r_out,g_out,b_out} <= 12'h0_f_0;
+          else if (hcount_out == 0) rgb_out <= 12'h0_f_0;
           // Active display, right edge, make a blue line.
-          else if (hcount_out == 1023) {r_out,g_out,b_out} <= 12'h0_0_f;
+          else if (hcount_out == 1023) rgb_out <= 12'h0_0_f;
           // Active display, interior, fill with gray.
-          else {r_out,g_out,b_out} <= 12'h8_8_8;    
+          else rgb_out <= 12'h8_8_8;
        end
     end
     
