@@ -38,7 +38,9 @@ proc create_new_project {project target top_module} {
 		rtl/clk_wiz_0.v
 		rtl/clk_wiz_0_clk_wiz.v
 		rtl/draw_circle_ctl.v
-		rtl/draw_cirlce.v
+		rtl/draw_circle.v
+		rtl/clock_delay.v
+		rtl/reset_delay.v
     }
     
     # Specify vhdl design files location      -- EDIT

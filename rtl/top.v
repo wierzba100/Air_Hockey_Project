@@ -21,6 +21,7 @@ module top (
   wire clk_94_5Mhz, locked, clk_out2, clk_out3;
   wire [11:0] rgb_out[2:0];
   wire [11:0] xpos[2:0],ypos[2:0];
+  wire rst_delay;
   
   clk_wiz_0 u_clk_wiz_0 (
     //input
@@ -43,10 +44,18 @@ module top (
     .S(1'b0)
   );
   
+    reset_delay u_reset_delay (
+      //input
+      .locked(locked),
+      .clk(clk_out3),
+      //output
+      .rst_out(rst_delay)
+    );
+  
   MouseCtl u_MouseCtl (
       //input
       .clk(clk_94_5Mhz),
-      .rst(rst),
+      .rst(rst_delay),
       //inout
       .ps2_clk(PS2Clk),
       .ps2_data(PS2Data),
@@ -55,9 +64,20 @@ module top (
       .ypos(ypos[0])
   );
   
+  clock_delay u_clock_delay (
+      //input
+      .clk(clk_out3),
+      .rst(rst_delay),
+      .xpos_in(xpos[0]),
+      .ypos_in(ypos[0]),
+      //output
+      .xpos_out(xpos[1]),
+      .ypos_out(ypos[1])
+  );
+  
   vga_timing u_vga_timing (
     .clk_in(clk_out3),
-    .rst(rst),
+    .rst(rst_delay),
     .vcount(vcount_out [0]),
     .vsync(vsync_out [0]),
     .vblnk(vblnk_out [0]),
@@ -88,7 +108,7 @@ module top (
     draw_circle u_draw_circle (
         //input
         .clk_in(clk_out3),
-        .rst(rst),
+        .rst(rst_delay),
         .hcount_in(hcount_out[1]),
         .hsync_in(hsync_out[1]),
         .hblnk_in(hblnk_out[1]),
@@ -96,8 +116,8 @@ module top (
         .vsync_in(vsync_out[1]),
         .vblnk_in(vblnk_out[1]),
         .rgb_in(rgb_out[1]),
-        .xpos(xpos[1]),
-        .ypos(ypos[1]),
+        .xpos(xpos[2]),
+        .ypos(ypos[2]),
         //output
         .hcount_out(hcount_out[2]),
         .hsync_out(hsync_out[2]),
@@ -109,12 +129,14 @@ module top (
       );
     
     draw_circle_ctl u_draw_circle_ctl (
+        //input
         .clk(clk_out3),
-        .rst(rst),
-        .mouse_xpos(xpos[0]),
-        .mouse_ypos(ypos[0]),
-        .xpos(xpos[1]),
-        .ypos(ypos[1])
+        .rst(rst_delay),
+        .mouse_xpos(xpos[1]),
+        .mouse_ypos(ypos[1]),
+        //output
+        .xpos(xpos[2]),
+        .ypos(ypos[2])
     );
 
 always@*
