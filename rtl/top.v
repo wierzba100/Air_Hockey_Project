@@ -15,13 +15,14 @@ module top (
     
     
 
-  wire [11:0] vcount_out [2:0], hcount_out [2:0];
-  wire [2:0] hsync_out, vsync_out;
-  wire [2:0] hblnk_out, vblnk_out;
+  wire [11:0] vcount_out [3:0], hcount_out [3:0];
+  wire [3:0] hsync_out, vsync_out;
+  wire [3:0] hblnk_out, vblnk_out;
   wire clk_94_5Mhz, locked, clk_out2, clk_out3;
-  wire [11:0] rgb_out[2:0];
-  wire [11:0] xpos[2:0],ypos[2:0];
+  wire [11:0] rgb_out[3:0];
+  wire [11:0] xpos[2:0],ypos[2:0], ball_xpos, ball_ypos;
   wire rst_delay;
+  wire [7:0] radius_player_1;
   
   clk_wiz_0 u_clk_wiz_0 (
     //input
@@ -104,8 +105,25 @@ module top (
     .vblnk_out(vblnk_out [1]),
     .rgb_out(rgb_out [1])
   );
-
-    draw_circle u_draw_circle (
+    
+    /*draw_circle_ctl u_draw_circle_ctl (
+      //input
+      .clk(clk_out3),
+      .rst(rst),
+      .mouse_xpos(xpos[0]),
+      .mouse_ypos(ypos[0]),
+      //output
+      .xpos(xpos[1]),
+      .ypos(ypos[1])
+  );*/
+    
+    
+    draw_circle
+    #(
+        .COLOR(12'hf_f_f),
+        .RADIUS(20)
+    )
+    u_draw_circle_player1 (
         //input
         .clk_in(clk_out3),
         .rst(rst_delay),
@@ -116,8 +134,8 @@ module top (
         .vsync_in(vsync_out[1]),
         .vblnk_in(vblnk_out[1]),
         .rgb_in(rgb_out[1]),
-        .xpos(xpos[2]),
-        .ypos(ypos[2]),
+        .xpos(xpos[0]),
+        .ypos(ypos[0]),
         //output
         .hcount_out(hcount_out[2]),
         .hsync_out(hsync_out[2]),
@@ -125,25 +143,46 @@ module top (
         .vcount_out(vcount_out[2]),
         .vsync_out(vsync_out[2]),
         .vblnk_out(vblnk_out[2]),
-        .rgb_out(rgb_out[2])
+        .rgb_out(rgb_out[2]),
+        .radius_player(radius_player_1)
       );
     
-    draw_circle_ctl u_draw_circle_ctl (
-        //input
-        .clk(clk_out3),
-        .rst(rst_delay),
-        .mouse_xpos(xpos[1]),
-        .mouse_ypos(ypos[1]),
-        //output
-        .xpos(xpos[2]),
-        .ypos(ypos[2])
+  draw_ball_ctl
+  #(
+      .COLOR(12'ha_b_c),
+      .RADIUS(10)
+  )
+  u_draw_ball_ctl (
+      //input
+      .clk_in(clk_out3),
+      .rst(rst_delay),
+      .hcount_in(hcount_out[2]),
+      .hsync_in(hsync_out[2]),
+      .hblnk_in(hblnk_out[2]),
+      .vcount_in(vcount_out[2]),
+      .vsync_in(vsync_out[2]),
+      .vblnk_in(vblnk_out[2]),
+      .rgb_in(rgb_out[2]),
+      .xpos(xpos[1]),
+      .ypos(ypos[1]),
+      .radius_player(radius_player_1),
+      //output
+      .hcount_out(hcount_out[3]),
+      .hsync_out(hsync_out[3]),
+      .hblnk_out(hblnk_out[3]),
+      .vcount_out(vcount_out[3]),
+      .vsync_out(vsync_out[3]),
+      .vblnk_out(vblnk_out[3]),
+      .rgb_out(rgb_out[3])
     );
+    
+    
 
 always@*
 begin
-    vs = vsync_out[1];
-    hs = hsync_out[1];
-    {r, g, b} = rgb_out[2];
+    vs = vsync_out[3];
+    hs = hsync_out[3];
+    {r, g, b} = rgb_out[3];
 end
 
 

@@ -1,9 +1,9 @@
-`timescale 1ns / 1ps
-
-module draw_circle
+module draw_ball_ctl
 #( parameter
-    COLOR = 12'hf_f_f,
-    RADIUS = 20
+    COLOR = 12'ha_b_c,
+    RADIUS = 10,
+    XPOS_ = 500,
+    YPOS_ = 500
 )
 (
     input wire clk_in,
@@ -17,21 +17,21 @@ module draw_circle
     input wire [11:0] rgb_in,
     input wire [11:0] xpos,
     input wire [11:0] ypos,
+    input wire [7:0] radius_player,
     output reg [11:0] hcount_out,
     output reg hsync_out,
     output reg hblnk_out,
     output reg [11:0] vcount_out,
     output reg vsync_out,
     output reg vblnk_out,
-    output reg [11:0] rgb_out,
-    output reg [7:0] radius_player
+    output reg [11:0] rgb_out
     );
     
     reg [11:0] rgb_nxt;
     
     always@*
     begin
-        if( ( ( hcount_in - xpos ) * ( hcount_in - xpos ) ) + ( ( vcount_in - ypos ) * ( vcount_in - ypos ) ) <= RADIUS * RADIUS )
+        if( ( ( hcount_in - XPOS_ ) * ( hcount_in - XPOS_ ) ) + ( ( vcount_in - YPOS_ ) * ( vcount_in - YPOS_ ) ) <= RADIUS * RADIUS )
             rgb_nxt = COLOR;
         else
             rgb_nxt = rgb_in;
@@ -49,7 +49,6 @@ module draw_circle
             hblnk_out <= 0;
             vblnk_out <= 0;
             rgb_out <= 0;
-            radius_player <= RADIUS;
         end
         else
         begin
@@ -60,10 +59,7 @@ module draw_circle
             hcount_out <= hcount_in;
             vcount_out <= vcount_in;
             rgb_out <= rgb_nxt;
-            radius_player <= RADIUS;
         end
     end
-           
-    
-    
+
 endmodule

@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 
-module draw_circle_ctl(
+module draw_circle_ctl
+(
     input wire clk,
     input wire rst,
     input wire [11:0] mouse_xpos,
