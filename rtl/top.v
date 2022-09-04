@@ -165,8 +165,8 @@ module top (
       .vsync_in(vsync_out[2]),
       .vblnk_in(vblnk_out[2]),
       .rgb_in(rgb_out[2]),
-      .xpos(xpos[2]),
-      .ypos(ypos[2]),
+      .xpos_player_1(xpos[2]),
+      .ypos_player_1(ypos[2]),
       .radius_player(radius_player_1),
       //output
       .hcount_out(hcount_out[3]),

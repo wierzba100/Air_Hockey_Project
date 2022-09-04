@@ -1,9 +1,7 @@
 module draw_ball_ctl
 #( parameter
     COLOR = 12'ha_b_c,
-    RADIUS = 10,
-    XPOS_ = 500,
-    YPOS_ = 500
+    RADIUS = 10
 )
 (
     input wire clk_in,
@@ -28,10 +26,11 @@ module draw_ball_ctl
     );
     
     reg [11:0] rgb_nxt;
+    reg [11:0] xpos_ball, ypos_ball;
     
     always@*
     begin
-        if( ( ( hcount_in - XPOS_ ) * ( hcount_in - XPOS_ ) ) + ( ( vcount_in - YPOS_ ) * ( vcount_in - YPOS_ ) ) <= RADIUS * RADIUS )
+        if( ( ( hcount_in - xpos_ball ) * ( hcount_in - xpos_ball ) ) + ( ( vcount_in - ypos_ball ) * ( vcount_in - ypos_ball ) ) <= RADIUS * RADIUS )
             rgb_nxt = COLOR;
         else
             rgb_nxt = rgb_in;
@@ -49,6 +48,8 @@ module draw_ball_ctl
             hblnk_out <= 0;
             vblnk_out <= 0;
             rgb_out <= 0;
+            xpos_ball <= 512;
+            ypos_ball <= 384;
         end
         else
         begin
