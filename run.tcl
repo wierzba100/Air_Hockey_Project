@@ -44,6 +44,7 @@ proc create_new_project {project target top_module} {
 		rtl/draw_ball_ctl.v
 		rtl/draw_playground.v
 		rtl/image_rom.v
+		rtl/draw_ball.v
     }
     
     # Specify vhdl design files location      -- EDIT

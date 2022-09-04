@@ -22,9 +22,16 @@ module top (
   wire clk_out_100MHz, locked, clk_out_65MHz;
   wire [11:0] rgb_out[4:0];
   wire [11:0] pixel_addr, rgb;
-  wire [11:0] xpos[2:0],ypos[2:0], ball_xpos, ball_ypos;
+  wire [11:0] xpos[2:0],ypos[2:0], xpos_ball, ypos_ball;
   wire rst_delay;
   wire [7:0] radius_player_1;
+  
+  //Parameters
+  localparam BALL_RADIUS = 10;
+  localparam BALL_COLOR = 12'ha_b_c;
+  localparam PLAYERS_RADIUS = 20;
+  localparam PLAYER_1_COLOR = 12'hf_0_0;
+  localparam PLAYER_2_COLOR = 12'h0_0_b;
 
   //clock module---------------------------------------------------/  
   clk_wiz_0 u_clk_wiz_0 (
@@ -147,8 +154,8 @@ draw_playground u_draw_playground(
     
     draw_circle
     #(
-        .COLOR(12'hf_0_0),
-        .RADIUS(20)
+        .COLOR(PLAYER_1_COLOR),
+        .RADIUS(PLAYERS_RADIUS)
     )
     u_draw_circle_player1 (
         //input
@@ -172,16 +179,31 @@ draw_playground u_draw_playground(
         .vblnk_out(vblnk_out[3]),
         .rgb_out(rgb_out[2]),
         .xpos_out(xpos[2]),
-        .ypos_out(ypos[2]),
-        .radius_player(radius_player_1)
+        .ypos_out(ypos[2])
       );
     
-  draw_ball_ctl
-  #(
-      .COLOR(12'ha_b_c),
-      .RADIUS(10)
-  )
-  u_draw_ball_ctl (
+      draw_ball_ctl
+      #(
+          .RADIUS_BALL(BALL_RADIUS),
+          .PLAYERS_RADIUS(PLAYERS_RADIUS)
+      )
+      u_draw_ball_ctl (
+      //input
+      .clk_in(clk_out_65MHz),
+      .rst(rst_delay),
+      .xpos_player_1(xpos[2]),
+      .ypos_player_1(ypos[2]),
+      //output
+      .xpos_ball(xpos_ball),
+      .ypos_ball(ypos_ball)
+    );
+    
+      draw_ball
+      #(
+          .COLOR(BALL_COLOR),
+          .RADIUS_BALL(BALL_RADIUS)
+      )
+      u_draw_ball (
       //input
       .clk_in(clk_out_65MHz),
       .rst(rst_delay),
@@ -192,9 +214,8 @@ draw_playground u_draw_playground(
       .vsync_in(vsync_out[3]),
       .vblnk_in(vblnk_out[3]),
       .rgb_in(rgb_out[2]),
-      .xpos(xpos[2]),
-      .ypos(ypos[2]),
-      .radius_player(radius_player_1),
+      .xpos_ball(xpos_ball),
+      .ypos_ball(ypos_ball),
       //output
       .hcount_out(hcount_out[4]),
       .hsync_out(hsync_out[4]),
