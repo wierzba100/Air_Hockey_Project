@@ -24,8 +24,8 @@ module draw_circle
     output reg vsync_out,
     output reg vblnk_out,
     output reg [11:0] rgb_out,
-    output reg xpos_out,
-    output reg ypos_out,
+    output reg [11:0] xpos_out,
+    output reg [11:0] ypos_out,
     output reg [7:0] radius_player
     );
     
