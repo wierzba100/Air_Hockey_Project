@@ -19,7 +19,7 @@ module top (
   wire [11:0] vcount_out [3:0], hcount_out [3:0];
   wire [4:0] hsync_out, vsync_out;
   wire [4:0] hblnk_out, vblnk_out;
-  wire clk_94_5Mhz, locked, clk_out2, clk_out3;
+  wire clk_out_100MHz, locked, clk_out_65MHz;
   wire [11:0] rgb_out[4:0];
   wire [11:0] pixel_addr, rgb;
   wire [11:0] xpos[2:0],ypos[2:0], ball_xpos, ball_ypos;
@@ -28,18 +28,19 @@ module top (
 
   //clock module---------------------------------------------------/  
   clk_wiz_0 u_clk_wiz_0 (
+    //input
     .clk_in(clk),
     .reset(rst),
-    .clk_94_5Mhz(clk_94_5Mhz),
-    .clk_out2(clk_out2),
-    .clk_out3(clk_out3),
+    //output
+    .clk_out_100MHz(clk_out_100MHz),
+    .clk_out_65MHz(clk_out_65MHz),
     .locked(locked)
   );
   
   //ODDR module---------------------------------------------------/    
   ODDR pclk_oddr (
     .Q(pclk_mirror),
-    .C(clk_out3),
+    .C(clk_out_65MHz),
     .CE(1'b1),
     .D1(1'b1),
     .D2(1'b0),
@@ -50,7 +51,7 @@ module top (
 //reset-delay module------------------------------------------------/  
 reset_delay u_reset_delay (
     .locked(locked),
-    .clk(clk_out3),
+    .clk(clk_out_65MHz),
     .rst_out(rst_delay)
     );
    
@@ -58,7 +59,7 @@ reset_delay u_reset_delay (
 MouseCtl my_MouseCtl(
   .ps2_clk(PS2Clk),
   .ps2_data(PS2Data),
-  .clk(clk_94_5Mhz),
+  .clk(clk_out_100MHz),
   .xpos(xpos[0]),
   .ypos(ypos[0]),
   .rst(rst)
@@ -66,7 +67,7 @@ MouseCtl my_MouseCtl(
   
 //clock-delay module------------------------------------------------/   
 clock_delay u_clock_delay (
-  .clk(clk_out3),
+  .clk(clk_out_65MHz),
   .rst(rst_delay),
   .xpos_in(xpos[0]),
   .ypos_in(ypos[0]),
@@ -76,7 +77,7 @@ clock_delay u_clock_delay (
   
 //timing module------------------------------------------------/  
 vga_timing u_vga_timing (
-   .clk_in(clk_out3),
+   .clk_in(clk_out_65MHz),
    .rst(rst_delay),
    .vcount(vcount_out[0]),
    .vsync(vsync_out[0]),
@@ -88,7 +89,7 @@ vga_timing u_vga_timing (
   
 //background load module--------------------------------------/   
 draw_background u_draw_background (
-  .clk_in(clk_out3),
+  .clk_in(clk_out_65MHz),
   .hcount_in(hcount_out[0]),
   .hsync_in(hsync_out[0]),
   .hblnk_in(hblnk_out[0]),
@@ -108,14 +109,14 @@ draw_background u_draw_background (
 
 //ROM module------------------------------------------------/   
 image_rom my_image_rom(
-  .clk(clk_out3),
+  .clk(clk_out_65MHz),
   .address(pixel_addr),
   .rgb(rgb)
   );
 
 //drawing playground module---------------------------------/    
 draw_playground u_draw_playground(
-  .clk_in(clk_out3),
+  .clk_in(clk_out_65MHz),
   .hcount_in(hcount_out[1]),
   .hsync_in(hsync_out[1]),
   .hblnk_in(hblnk_out[1]),
@@ -134,7 +135,7 @@ draw_playground u_draw_playground(
     
     /*draw_circle_ctl u_draw_circle_ctl (
       //input
-      .clk(clk_out3),
+      .clk(clk_out_65MHz),
       .rst(rst),
       .mouse_xpos(xpos[0]),
       .mouse_ypos(ypos[0]),
@@ -151,7 +152,7 @@ draw_playground u_draw_playground(
     )
     u_draw_circle_player1 (
         //input
-        .clk_in(clk_out3),
+        .clk_in(clk_out_65MHz),
         .rst(rst_delay),
         .hcount_in(hcount_out[2]),
         .hsync_in(hsync_out[2]),
@@ -182,7 +183,7 @@ draw_playground u_draw_playground(
   )
   u_draw_ball_ctl (
       //input
-      .clk_in(clk_out3),
+      .clk_in(clk_out_65MHz),
       .rst(rst_delay),
       .hcount_in(hcount_out[3]),
       .hsync_in(hsync_out[3]),
