@@ -134,8 +134,8 @@ module top (
         .vsync_in(vsync_out[1]),
         .vblnk_in(vblnk_out[1]),
         .rgb_in(rgb_out[1]),
-        .xpos(xpos[0]),
-        .ypos(ypos[0]),
+        .xpos_in(xpos[1]),
+        .ypos_in(ypos[1]),
         //output
         .hcount_out(hcount_out[2]),
         .hsync_out(hsync_out[2]),
@@ -144,6 +144,8 @@ module top (
         .vsync_out(vsync_out[2]),
         .vblnk_out(vblnk_out[2]),
         .rgb_out(rgb_out[2]),
+        .xpos_out(xpos[2]),
+        .ypos_out(ypos[2]),
         .radius_player(radius_player_1)
       );
     
@@ -163,8 +165,8 @@ module top (
       .vsync_in(vsync_out[2]),
       .vblnk_in(vblnk_out[2]),
       .rgb_in(rgb_out[2]),
-      .xpos(xpos[1]),
-      .ypos(ypos[1]),
+      .xpos(xpos[2]),
+      .ypos(ypos[2]),
       .radius_player(radius_player_1),
       //output
       .hcount_out(hcount_out[3]),

@@ -15,8 +15,8 @@ module draw_circle
     input wire vsync_in,
     input wire vblnk_in,
     input wire [11:0] rgb_in,
-    input wire [11:0] xpos,
-    input wire [11:0] ypos,
+    input wire [11:0] xpos_in,
+    input wire [11:0] ypos_in,
     output reg [11:0] hcount_out,
     output reg hsync_out,
     output reg hblnk_out,
@@ -24,6 +24,8 @@ module draw_circle
     output reg vsync_out,
     output reg vblnk_out,
     output reg [11:0] rgb_out,
+    output reg xpos_out,
+    output reg ypos_out,
     output reg [7:0] radius_player
     );
     
@@ -31,7 +33,7 @@ module draw_circle
     
     always@*
     begin
-        if( ( ( hcount_in - xpos ) * ( hcount_in - xpos ) ) + ( ( vcount_in - ypos ) * ( vcount_in - ypos ) ) <= RADIUS * RADIUS )
+        if( ( ( hcount_in - xpos_in ) * ( hcount_in - xpos_in ) ) + ( ( vcount_in - ypos_in ) * ( vcount_in - ypos_in ) ) <= RADIUS * RADIUS )
             rgb_nxt = COLOR;
         else
             rgb_nxt = rgb_in;
@@ -48,6 +50,8 @@ module draw_circle
             vsync_out <= 0;
             hblnk_out <= 0;
             vblnk_out <= 0;
+            xpos_out <= 0;
+            ypos_out <= 0;
             rgb_out <= 0;
             radius_player <= RADIUS;
         end
@@ -60,6 +64,8 @@ module draw_circle
             hcount_out <= hcount_in;
             vcount_out <= vcount_in;
             rgb_out <= rgb_nxt;
+            xpos_out <= xpos_in;
+            ypos_out <= ypos_in;
             radius_player <= RADIUS;
         end
     end
