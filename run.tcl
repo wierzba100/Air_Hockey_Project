@@ -42,6 +42,8 @@ proc create_new_project {project target top_module} {
 		rtl/clock_delay.v
 		rtl/reset_delay.v
 		rtl/draw_ball_ctl.v
+		rtl/draw_playground.v
+		rtl/image_rom.v
     }
     
     # Specify vhdl design files location      -- EDIT
@@ -50,10 +52,10 @@ proc create_new_project {project target top_module} {
 		rtl/Ps2Interface.vhd
     }
     
-#    # Specify files for memory initialization -- EDIT
-#    read_mem {
-#        
-#    }
+    # Specify files for memory initialization -- EDIT
+    read_mem {
+		rtl/trawa.dat
+    }
 
     # Specify simulation files location       -- EDIT
     add_files -fileset sim_1 {

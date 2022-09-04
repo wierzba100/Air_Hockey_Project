@@ -48,8 +48,8 @@ module draw_ball_ctl
             hblnk_out <= 0;
             vblnk_out <= 0;
             rgb_out <= 0;
-            xpos_ball <= 512;
-            ypos_ball <= 384;
+            xpos_ball <= 384;
+            ypos_ball <= 512;
         end
         else
         begin
