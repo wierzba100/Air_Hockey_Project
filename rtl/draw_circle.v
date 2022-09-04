@@ -2,7 +2,7 @@
 
 module draw_circle
 #( parameter
-    COLOR = 12'hf_0_f,
+    COLOR = 12'hf_f_f,
     RADIUS = 20
 )
 (

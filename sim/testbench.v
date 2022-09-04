@@ -21,7 +21,7 @@ module testbench;
   wire pclk_mirror;
   wire vs, hs;
   wire [3:0] r, g, b;
-  wire clk_94_5Mhz, locked, clk_out2, clk_out3;
+  wire clk_out_100MHz, locked, clk_out_65MHz;
 
   // Instantiate the vga_example module.
   
@@ -41,14 +41,13 @@ module testbench;
       .clk_in(clk),
       .reset(rst),
       //output
-      .clk_94_5Mhz(clk_94_5Mhz),
-      .clk_out2(clk_out2),
-      .clk_out3(clk_out3),
+      .clk_out_100MHz(clk_out_100MHz),
+      .clk_out_65MHz(clk_out_65MHz),
       .locked(locked)
-    
     );
 
   // Instantiate the tiff_writer module.
+
 
   tiff_writer my_writer (
     .pclk_mirror(pclk_mirror),

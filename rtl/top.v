@@ -16,7 +16,7 @@ module top (
     
     
 //wires********************************************************************************/
-  wire [11:0] vcount_out [3:0], hcount_out [3:0];
+  wire [11:0] vcount_out [4:0], hcount_out [4:0];
   wire [4:0] hsync_out, vsync_out;
   wire [4:0] hblnk_out, vblnk_out;
   wire clk_out_100MHz, locked, clk_out_65MHz;
@@ -147,7 +147,7 @@ draw_playground u_draw_playground(
     
     draw_circle
     #(
-        .COLOR(12'hf_f_f),
+        .COLOR(12'hf_0_0),
         .RADIUS(20)
     )
     u_draw_circle_player1 (
