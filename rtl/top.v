@@ -22,7 +22,7 @@ module top (
   wire clk_out_100MHz, locked, clk_out_65MHz;
   wire [11:0] rgb_out[4:0];
   wire [11:0] pixel_addr, rgb;
-  wire [11:0] xpos[2:0],ypos[2:0], xpos_ball, ypos_ball;
+  wire [11:0] xpos[3:0],ypos[3:0], xpos_ball, ypos_ball;
   wire rst_delay;
   wire [7:0] radius_player_1;
   
@@ -140,16 +140,23 @@ draw_playground u_draw_playground(
   .rgb_in(rgb_out[0])
   );
     
-    /*draw_circle_ctl u_draw_circle_ctl (
-      //input
-      .clk(clk_out_65MHz),
-      .rst(rst),
-      .mouse_xpos(xpos[0]),
-      .mouse_ypos(ypos[0]),
-      //output
-      .xpos(xpos[1]),
-      .ypos(ypos[1])
-  );*/
+    /*draw_circle_ctl
+    #(
+        .RADIUS_BALL(BALL_RADIUS),
+        .PLAYERS_RADIUS(PLAYERS_RADIUS)
+    )
+    u_draw_circle_ctl (
+        //input
+        .clk(clk_out_65MHz),
+        .rst(rst),
+        .mouse_xpos(xpos[1]),
+        .mouse_ypos(ypos[1]),
+        .xpos_ball(xpos_ball),
+        .ypos_ball(ypos_ball),
+        //output
+        .xpos(xpos[2]),
+        .ypos(ypos[2])
+    );*/
     
     
     draw_circle

@@ -17,17 +17,21 @@ module draw_ball_ctl
     
     always@*
     begin
-        if( ( xpos_player_1 + PLAYERS_RADIUS <= xpos_ball - RADIUS_BALL ) && ( xpos_player_1 + PLAYERS_RADIUS >= xpos_ball - RADIUS_BALL - 2) )
-            xpos_ball_nxt = xpos_ball + 2;
-        else if ( ( xpos_player_1 - PLAYERS_RADIUS >= xpos_ball + RADIUS_BALL ) && ( xpos_player_1 - PLAYERS_RADIUS <= xpos_ball + RADIUS_BALL + 2) )
-            xpos_ball_nxt = xpos_ball - 2;
+        if( ( xpos_player_1 + PLAYERS_RADIUS >= xpos_ball - RADIUS_BALL) && ( xpos_player_1 + PLAYERS_RADIUS <= xpos_ball - RADIUS_BALL + PLAYERS_RADIUS/2 ) 
+        && ( ypos_player_1 - 5 <=  ypos_ball) && ( ypos_player_1 + 5 >=  ypos_ball) )
+            xpos_ball_nxt = xpos_ball + 1;
+        else if ( ( xpos_player_1 - PLAYERS_RADIUS <= xpos_ball + RADIUS_BALL ) && ( xpos_player_1 - PLAYERS_RADIUS >= xpos_ball + RADIUS_BALL - PLAYERS_RADIUS/2) 
+        && ( ypos_player_1 - 5 <=  ypos_ball) && ( ypos_player_1 + 5 >=  ypos_ball))
+            xpos_ball_nxt = xpos_ball - 1;
         else
             xpos_ball_nxt = xpos_ball;
         
-        if( ( ypos_player_1 - PLAYERS_RADIUS >= ypos_ball + RADIUS_BALL ) && ( ypos_player_1 - PLAYERS_RADIUS <= ypos_ball + RADIUS_BALL + 2) )
-            ypos_ball_nxt = ypos_ball - 2;
-        else if( ( ypos_player_1 + PLAYERS_RADIUS <= ypos_ball - RADIUS_BALL ) && ( ypos_player_1 + PLAYERS_RADIUS >= ypos_ball - RADIUS_BALL - 2 ) )
-            ypos_ball_nxt = ypos_ball + 2;
+        if( ( ypos_player_1 - PLAYERS_RADIUS <= ypos_ball + RADIUS_BALL ) && ( ypos_player_1 - PLAYERS_RADIUS >= ypos_ball + RADIUS_BALL - PLAYERS_RADIUS/2) 
+        && ( xpos_player_1 - 5 <=  xpos_ball) && ( xpos_player_1 + 5 >=  xpos_ball) )
+            ypos_ball_nxt = ypos_ball - 1;
+        else if( ( ypos_player_1 + PLAYERS_RADIUS >= ypos_ball - RADIUS_BALL) && ( ypos_player_1 + PLAYERS_RADIUS <= ypos_ball - RADIUS_BALL + PLAYERS_RADIUS/2 ) 
+        && ( xpos_player_1 - 5 <=  xpos_ball) && ( xpos_player_1 + 5 >=  xpos_ball) )
+            ypos_ball_nxt = ypos_ball + 1;
         else
             ypos_ball_nxt = ypos_ball;
     end
