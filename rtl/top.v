@@ -19,7 +19,7 @@ module top (
   wire [11:0] vcount_out [4:0], hcount_out [4:0];
   wire [4:0] hsync_out, vsync_out;
   wire [4:0] hblnk_out, vblnk_out;
-  wire clk_out_100MHz, locked, clk_out_65MHz;
+  wire clk_out_130MHz, locked, clk_out_65MHz;
   wire [11:0] rgb_out[4:0];
   wire [11:0] pixel_addr, rgb;
   wire [11:0] xpos[3:0],ypos[3:0], xpos_ball, ypos_ball;
@@ -36,10 +36,10 @@ module top (
   //clock module---------------------------------------------------/  
   clk_wiz_0 u_clk_wiz_0 (
     //input
-    .clk_in(clk),
+    .clk_in1(clk),
     .reset(rst),
     //output
-    .clk_out_100MHz(clk_out_100MHz),
+    .clk_out_130MHz(clk_out_130MHz),
     .clk_out_65MHz(clk_out_65MHz),
     .locked(locked)
   );
@@ -66,7 +66,7 @@ reset_delay u_reset_delay (
 MouseCtl my_MouseCtl(
   .ps2_clk(PS2Clk),
   .ps2_data(PS2Data),
-  .clk(clk_out_100MHz),
+  .clk(clk_out_130MHz),
   .xpos(xpos[0]),
   .ypos(ypos[0]),
   .rst(rst)
