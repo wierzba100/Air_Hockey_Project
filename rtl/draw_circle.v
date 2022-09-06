@@ -28,7 +28,7 @@ module draw_circle
     output reg [11:0] ypos_out
     );
     
-    reg [11:0] rgb_nxt;
+    reg [11:0] rgb_nxt,rgb_nxt1;
     
     always@*
     begin
@@ -61,7 +61,8 @@ module draw_circle
             vblnk_out <= vblnk_in;
             hcount_out <= hcount_in;
             vcount_out <= vcount_in;
-            rgb_out <= rgb_nxt;
+            rgb_nxt1<= rgb_nxt;
+            rgb_out <= rgb_nxt1;
             xpos_out <= xpos_in;
             ypos_out <= ypos_in;
         end

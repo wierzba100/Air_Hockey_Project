@@ -26,7 +26,7 @@ module draw_ball
     output reg [11:0] rgb_out
 );
     
-    reg [11:0] rgb_nxt;
+    reg [11:0] rgb_nxt,rgb_nxt_1;
     
     always@*
     begin
