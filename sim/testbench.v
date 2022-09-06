@@ -38,10 +38,10 @@ module testbench;
    
    clk_wiz_0 u_clk_wiz_0 (
       //input
-      .clk_in(clk),
+      .clk_in1(clk),
       .reset(rst),
       //output
-      .clk_out_100MHz(clk_out_100MHz),
+      .clk_out_130MHz(clk_out_130MHz),
       .clk_out_65MHz(clk_out_65MHz),
       .locked(locked)
     );
