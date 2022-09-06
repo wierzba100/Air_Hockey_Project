@@ -21,7 +21,7 @@ module testbench;
   wire pclk_mirror;
   wire vs, hs;
   wire [3:0] r, g, b;
-  wire clk_out_100MHz, locked, clk_out_65MHz;
+  wire clk_out_130MHz, locked, clk_out_65MHz;
 
   // Instantiate the vga_example module.
   

@@ -16,15 +16,16 @@ module top (
     
     
 //wires********************************************************************************/
-  wire [11:0] vcount_out [4:0], hcount_out [4:0];
-  wire [4:0] hsync_out, vsync_out;
-  wire [4:0] hblnk_out, vblnk_out;
+  wire [11:0] vcount_out [5:0], hcount_out [5:0];
+  wire [5:0] hsync_out, vsync_out;
+  wire [5:0] hblnk_out, vblnk_out;
   wire clk_out_130MHz, locked, clk_out_65MHz;
-  wire [11:0] rgb_out[4:0];
+  wire [11:0] rgb_out[5:0];
   wire [11:0] pixel_addr, rgb;
   wire [11:0] xpos[3:0],ypos[3:0], xpos_ball, ypos_ball;
   wire rst_delay;
   wire [7:0] radius_player_1;
+  reg [1:0] player_1_point_data =2'b11;
   
   //Parameters
   localparam BALL_RADIUS = 10;
@@ -130,6 +131,7 @@ draw_playground u_draw_playground(
   .vcount_in(vcount_out[1]),
   .vsync_in(vsync_out[1]),
   .vblnk_in(vblnk_out[1]),
+  
   .hcount_out(hcount_out[2]),
   .hsync_out(hsync_out[2]),
   .hblnk_out(hblnk_out[2]),
@@ -139,7 +141,28 @@ draw_playground u_draw_playground(
   .rgb_out(rgb_out[1]),
   .rgb_in(rgb_out[0])
   );
+  
+ //drawing scoreboard module---------------------------------/     
+  draw_scoreboard u_draw_scoreboard(
+    .clk(clk_out_65MHz),
+    .rst(rst_delay),
+    .hblnk_in(hblnk_out[2]),
+    .vblnk_in(vblnk_out[2]),
+    .hsync_in(hsync_out[2]),
+    .vsync_in(vsync_out[2]),
+    .hcount_in(hcount_out[2]),
+    .vcount_in(vcount_out[2]),
+    .rgb_in(rgb_out[1]),
+    .player_1_point(player_1_point_data),
     
+    .hblnk_out(hblnk_out[3]),
+    .vblnk_out(vblnk_out [3]),
+    .hsync_out(hsync_out[3]),
+    .vsync_out(vsync_out[3]),
+    .hcount_out(hcount_out[3]),
+    .vcount_out(vcount_out[3]),
+    .rgb_out(rgb_out[2]) 
+  );  
     /*draw_circle_ctl
     #(
         .RADIUS_BALL(BALL_RADIUS),
@@ -168,23 +191,23 @@ draw_playground u_draw_playground(
         //input
         .clk_in(clk_out_65MHz),
         .rst(rst_delay),
-        .hcount_in(hcount_out[2]),
-        .hsync_in(hsync_out[2]),
-        .hblnk_in(hblnk_out[2]),
-        .vcount_in(vcount_out[2]),
-        .vsync_in(vsync_out[2]),
-        .vblnk_in(vblnk_out[2]),
-        .rgb_in(rgb_out[1]),
+        .hcount_in(hcount_out[3]),
+        .hsync_in(hsync_out[3]),
+        .hblnk_in(hblnk_out[3]),
+        .vcount_in(vcount_out[3]),
+        .vsync_in(vsync_out[3]),
+        .vblnk_in(vblnk_out[3]),
+        .rgb_in(rgb_out[2]),
         .xpos_in(xpos[1]),
         .ypos_in(ypos[1]),
         //output
-        .hcount_out(hcount_out[3]),
-        .hsync_out(hsync_out[3]),
-        .hblnk_out(hblnk_out[3]),
-        .vcount_out(vcount_out[3]),
-        .vsync_out(vsync_out[3]),
-        .vblnk_out(vblnk_out[3]),
-        .rgb_out(rgb_out[2]),
+        .hcount_out(hcount_out[4]),
+        .hsync_out(hsync_out[4]),
+        .hblnk_out(hblnk_out[4]),
+        .vcount_out(vcount_out[4]),
+        .vsync_out(vsync_out[4]),
+        .vblnk_out(vblnk_out[4]),
+        .rgb_out(rgb_out[3]),
         .xpos_out(xpos[2]),
         .ypos_out(ypos[2])
       );
@@ -214,32 +237,32 @@ draw_playground u_draw_playground(
       //input
       .clk_in(clk_out_65MHz),
       .rst(rst_delay),
-      .hcount_in(hcount_out[3]),
-      .hsync_in(hsync_out[3]),
-      .hblnk_in(hblnk_out[3]),
-      .vcount_in(vcount_out[3]),
-      .vsync_in(vsync_out[3]),
-      .vblnk_in(vblnk_out[3]),
-      .rgb_in(rgb_out[2]),
+      .hcount_in(hcount_out[4]),
+      .hsync_in(hsync_out[4]),
+      .hblnk_in(hblnk_out[4]),
+      .vcount_in(vcount_out[4]),
+      .vsync_in(vsync_out[4]),
+      .vblnk_in(vblnk_out[4]),
+      .rgb_in(rgb_out[3]),
       .xpos_ball(xpos_ball),
       .ypos_ball(ypos_ball),
       //output
-      .hcount_out(hcount_out[4]),
-      .hsync_out(hsync_out[4]),
-      .hblnk_out(hblnk_out[4]),
-      .vcount_out(vcount_out[4]),
-      .vsync_out(vsync_out[4]),
-      .vblnk_out(vblnk_out[4]),
-      .rgb_out(rgb_out[3])
+      .hcount_out(hcount_out[5]),
+      .hsync_out(hsync_out[5]),
+      .hblnk_out(hblnk_out[5]),
+      .vcount_out(vcount_out[5]),
+      .vsync_out(vsync_out[5]),
+      .vblnk_out(vblnk_out[5]),
+      .rgb_out(rgb_out[4])
     );
     
     
 
 always@*
 begin
-    vs = vsync_out[4];
-    hs = hsync_out[4];
-    {r, g, b} = rgb_out[3];
+    vs = vsync_out[5];
+    hs = hsync_out[5];
+    {r, g, b} = rgb_out[4];
     end
 
 
