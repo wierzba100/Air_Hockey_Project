@@ -143,7 +143,7 @@ draw_playground u_draw_playground(
   );
   
  //drawing scoreboard module---------------------------------/     
-  draw_scoreboard u_draw_scoreboard(
+ /* draw_scoreboard u_draw_scoreboard(
     .clk(clk_out_65MHz),
     .rst(rst_delay),
     .hblnk_in(hblnk_out[2]),
@@ -163,7 +163,7 @@ draw_playground u_draw_playground(
     .vcount_out(vcount_out[3]),
     .rgb_out(rgb_out[2]) 
   );  
-    /*draw_circle_ctl
+    draw_circle_ctl
     #(
         .RADIUS_BALL(BALL_RADIUS),
         .PLAYERS_RADIUS(PLAYERS_RADIUS)
@@ -191,23 +191,23 @@ draw_playground u_draw_playground(
         //input
         .clk_in(clk_out_65MHz),
         .rst(rst_delay),
-        .hcount_in(hcount_out[3]),
-        .hsync_in(hsync_out[3]),
-        .hblnk_in(hblnk_out[3]),
-        .vcount_in(vcount_out[3]),
-        .vsync_in(vsync_out[3]),
-        .vblnk_in(vblnk_out[3]),
-        .rgb_in(rgb_out[2]),
+        .hcount_in(hcount_out[2]),
+        .hsync_in(hsync_out[2]),
+        .hblnk_in(hblnk_out[2]),
+        .vcount_in(vcount_out[2]),
+        .vsync_in(vsync_out[2]),
+        .vblnk_in(vblnk_out[2]),
+        .rgb_in(rgb_out[1]),
         .xpos_in(xpos[1]),
         .ypos_in(ypos[1]),
         //output
-        .hcount_out(hcount_out[4]),
-        .hsync_out(hsync_out[4]),
-        .hblnk_out(hblnk_out[4]),
-        .vcount_out(vcount_out[4]),
-        .vsync_out(vsync_out[4]),
-        .vblnk_out(vblnk_out[4]),
-        .rgb_out(rgb_out[3]),
+        .hcount_out(hcount_out[3]),
+        .hsync_out(hsync_out[3]),
+        .hblnk_out(hblnk_out[3]),
+        .vcount_out(vcount_out[3]),
+        .vsync_out(vsync_out[3]),
+        .vblnk_out(vblnk_out[3]),
+        .rgb_out(rgb_out[2]),
         .xpos_out(xpos[2]),
         .ypos_out(ypos[2])
       );
@@ -237,32 +237,32 @@ draw_playground u_draw_playground(
       //input
       .clk_in(clk_out_65MHz),
       .rst(rst_delay),
-      .hcount_in(hcount_out[4]),
-      .hsync_in(hsync_out[4]),
-      .hblnk_in(hblnk_out[4]),
-      .vcount_in(vcount_out[4]),
-      .vsync_in(vsync_out[4]),
-      .vblnk_in(vblnk_out[4]),
-      .rgb_in(rgb_out[3]),
+      .hcount_in(hcount_out[3]),
+      .hsync_in(hsync_out[3]),
+      .hblnk_in(hblnk_out[3]),
+      .vcount_in(vcount_out[3]),
+      .vsync_in(vsync_out[3]),
+      .vblnk_in(vblnk_out[3]),
+      .rgb_in(rgb_out[2]),
       .xpos_ball(xpos_ball),
       .ypos_ball(ypos_ball),
       //output
-      .hcount_out(hcount_out[5]),
-      .hsync_out(hsync_out[5]),
-      .hblnk_out(hblnk_out[5]),
-      .vcount_out(vcount_out[5]),
-      .vsync_out(vsync_out[5]),
-      .vblnk_out(vblnk_out[5]),
-      .rgb_out(rgb_out[4])
+      .hcount_out(hcount_out[4]),
+      .hsync_out(hsync_out[4]),
+      .hblnk_out(hblnk_out[4]),
+      .vcount_out(vcount_out[4]),
+      .vsync_out(vsync_out[4]),
+      .vblnk_out(vblnk_out[4]),
+      .rgb_out(rgb_out[3])
     );
     
     
 
 always@*
 begin
-    vs = vsync_out[5];
-    hs = hsync_out[5];
-    {r, g, b} = rgb_out[4];
+    vs = vsync_out[4];
+    hs = hsync_out[4];
+    {r, g, b} = rgb_out[3];
     end
 
 
