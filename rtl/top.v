@@ -24,8 +24,8 @@ module top (
   wire [11:0] pixel_addr, rgb;
   wire [11:0] xpos[3:0],ypos[3:0], xpos_ball, ypos_ball;
   wire rst_delay;
-  wire [7:0] radius_player_1;
-  reg [1:0] player_1_point_data =2'b11;
+  wire [4:0] player_1_score, player_2_score;
+  
   
   //Parameters
   localparam BALL_RADIUS = 10;
@@ -225,7 +225,9 @@ draw_playground u_draw_playground(
       .ypos_player_1(ypos[2]),
       //output
       .xpos_ball(xpos_ball),
-      .ypos_ball(ypos_ball)
+      .ypos_ball(ypos_ball),
+      .player_1_score(player_1_score),
+      .player_2_score(player_2_score)
     );
     
       draw_ball
