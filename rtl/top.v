@@ -10,6 +10,8 @@ module top (
   output reg [3:0] r,
   output reg [3:0] g,
   output reg [3:0] b,
+  output wire [3:0] an,
+  output wire [7:0] sseg,
   inout PS2Clk,
   inout PS2Data
   );
@@ -24,7 +26,7 @@ module top (
   wire [11:0] pixel_addr, rgb;
   wire [11:0] xpos[3:0],ypos[3:0], xpos_ball, ypos_ball;
   wire rst_delay;
-  wire [4:0] player_1_score, player_2_score;
+  wire [3:0] player_1_score, player_2_score;
   
   
   //Parameters
@@ -141,46 +143,6 @@ draw_playground u_draw_playground(
   .rgb_out(rgb_out[1]),
   .rgb_in(rgb_out[0])
   );
-  
- //drawing scoreboard module---------------------------------/     
- /* draw_scoreboard u_draw_scoreboard(
-    .clk(clk_out_65MHz),
-    .rst(rst_delay),
-    .hblnk_in(hblnk_out[2]),
-    .vblnk_in(vblnk_out[2]),
-    .hsync_in(hsync_out[2]),
-    .vsync_in(vsync_out[2]),
-    .hcount_in(hcount_out[2]),
-    .vcount_in(vcount_out[2]),
-    .rgb_in(rgb_out[1]),
-    .player_1_point(player_1_point_data),
-    
-    .hblnk_out(hblnk_out[3]),
-    .vblnk_out(vblnk_out [3]),
-    .hsync_out(hsync_out[3]),
-    .vsync_out(vsync_out[3]),
-    .hcount_out(hcount_out[3]),
-    .vcount_out(vcount_out[3]),
-    .rgb_out(rgb_out[2]) 
-  );  
-    draw_circle_ctl
-    #(
-        .RADIUS_BALL(BALL_RADIUS),
-        .PLAYERS_RADIUS(PLAYERS_RADIUS)
-    )
-    u_draw_circle_ctl (
-        //input
-        .clk(clk_out_65MHz),
-        .rst(rst),
-        .mouse_xpos(xpos[1]),
-        .mouse_ypos(ypos[1]),
-        .xpos_ball(xpos_ball),
-        .ypos_ball(ypos_ball),
-        //output
-        .xpos(xpos[2]),
-        .ypos(ypos[2])
-    );*/
-    
     
     draw_circle
     #(
@@ -258,6 +220,19 @@ draw_playground u_draw_playground(
       .rgb_out(rgb_out[3])
     );
     
+    disp_hex_mux u_disp_hex_mux (
+        //input
+        .clk(clk_out_65MHz),
+        .reset(rst_delay),
+        .hex0(player_2_score),
+        .hex1(1'b0),
+        .hex2(player_1_score),
+        .hex3(1'b0),
+        .dp_in(4'b1011),
+        //output
+        .an(an),
+        .sseg(sseg)
+    );
     
 
 always@*

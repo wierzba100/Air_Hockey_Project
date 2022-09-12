@@ -45,6 +45,7 @@ proc create_new_project {project target top_module} {
 		rtl/draw_playground.v
 		rtl/image_rom.v
 		rtl/draw_ball.v
+		rtl/disp_hex_mux.v
     }
     
     # Specify vhdl design files location      -- EDIT

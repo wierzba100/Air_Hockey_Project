@@ -10,8 +10,8 @@ module draw_ball_ctl
     input wire [11:0] ypos_player_1,
     output reg [11:0] xpos_ball,
     output reg [11:0] ypos_ball,
-    output reg [4:0] player_1_score,
-    output reg [4:0] player_2_score
+    output reg [3:0] player_1_score,
+    output reg [3:0] player_2_score
     );
     
     reg [11:0] xpos_ball_nxt, ypos_ball_nxt;
@@ -26,19 +26,19 @@ module draw_ball_ctl
         begin
             xpos_ball_nxt = 487;
             ypos_ball_nxt = 362;
-            x_direction_nxt = 3;
             accerelation_x_nxt = 0;
             accerelation_y_nxt = 0;
+            x_direction_nxt = 3;
             y_direction_nxt = 3; 
             player_2_score_nxt = player_2_score + 1;
         end
-        else if( ( xpos_ball + RADIUS_BALL == 979 )  && ( ypos_ball - RADIUS_BALL > 265 ) && ( ypos_ball + RADIUS_BALL < 451 ) )
+        else if( ( xpos_ball + RADIUS_BALL == 979 || xpos_ball + RADIUS_BALL == 978)  && ( ypos_ball - RADIUS_BALL > 265 ) && ( ypos_ball + RADIUS_BALL < 451 ) )
         begin
             xpos_ball_nxt = 487;
             ypos_ball_nxt = 362;
-            x_direction_nxt = 3;
             accerelation_x_nxt = 0;
             accerelation_y_nxt = 0;
+            x_direction_nxt = 3;
             y_direction_nxt = 3;
             player_1_score_nxt = player_1_score + 1;
         end
@@ -69,13 +69,13 @@ module draw_ball_ctl
                 x_direction_nxt = 1;
             else
                 x_direction_nxt = 0;
-            accerelation_x_nxt = 50;
+            accerelation_x_nxt = 40;
             
             if( ypos_player_1 <= ypos_ball )
                 y_direction_nxt = 1;
             else
                 y_direction_nxt = 0;
-            accerelation_y_nxt = 50;
+            accerelation_y_nxt = 25;
         end
         else
         begin
@@ -115,14 +115,14 @@ module draw_ball_ctl
         begin
             xpos_ball <= 487;
             ypos_ball <= 362;
-            player_1_score <= 0;
-            player_2_score <= 0;
             accerelation_x <= 0;
             accerelation_y <= 0;
-            speed_x <= 0;
-            speed_y <= 0;
             x_direction <= 3;
             y_direction <= 3;
+            player_1_score <= 0;
+            player_2_score <= 0;
+            speed_x <= 0;
+            speed_y <= 0;
         end
         else
         begin
