@@ -23,7 +23,7 @@ module top (
   wire clk_out_130MHz, locked, clk_out_65MHz;
   wire [11:0] rgb, rgb_out[2:0];
   wire [11:0] pixel_addr;
-  wire [11:0] xpos[2:0],ypos[2:0], xpos_ball, ypos_ball;
+  wire [11:0] xpos_player1[2:0], ypos_player1[2:0], xpos_player2[2:0], ypos_player2[2:0], xpos_ball, ypos_ball;
   wire rst_delay;
   wire [3:0] player_1_score, player_2_score;
     
@@ -66,8 +66,8 @@ MouseCtl my_MouseCtl(
   .ps2_clk(PS2Clk),
   .ps2_data(PS2Data),
   .clk(clk_out_130MHz),
-  .xpos(xpos[0]),
-  .ypos(ypos[0]),
+  .xpos(xpos_player1[0]),
+  .ypos(ypos_player1[0]),
   .rst(rst)
   );
   
@@ -75,10 +75,14 @@ MouseCtl my_MouseCtl(
 clock_delay u_clock_delay (
   .clk(clk_out_65MHz),
   .rst(rst_delay),
-  .xpos_in(xpos[0]),
-  .ypos_in(ypos[0]),
-  .xpos_out(xpos[1]),
-  .ypos_out(ypos[1])
+  .xpos_in_player1(xpos_player1[0]),
+  .ypos_in_player1(ypos_player1[0]),
+  .xpos_in_player2(xpos_player2[0]),
+  .ypos_in_player2(ypos_player2[0]),
+  .xpos_out_player1(xpos_player1[1]),
+  .ypos_out_player1(ypos_player1[1]),
+  .xpos_out_player2(xpos_player2[1]),
+  .ypos_out_player2(ypos_player2[1])
   );
   
 //timing module--------------------------------------------------------------------------------------------------------------------------------------------------------------/  
@@ -142,10 +146,11 @@ draw_playground u_draw_playground(
  
 //drawing circle module--------------------------------------------------------------------------------------------------------------------------------------------------/      
 draw_circle#(
-  .COLOR(PLAYER_1_COLOR),
+  .COLOR_PLAYER1(PLAYER_1_COLOR),
+  .COLOR_PLAYER2(PLAYER_2_COLOR),
   .RADIUS(PLAYERS_RADIUS)
   ) 
-u_draw_circle_player1 (
+u_draw_players (
   .clk_in(clk_out_65MHz),
   .rst(rst_delay),
   .hcount_in(hcount_out[2]),
@@ -155,8 +160,10 @@ u_draw_circle_player1 (
   .vsync_in(vsync_out[2]),
   .vblnk_in(vblnk_out[2]),
   .rgb_in(rgb_out[1]),
-  .xpos_in(xpos[1]),
-  .ypos_in(ypos[1]),
+  .xpos_in_player1(xpos_player1[1]),
+  .ypos_in_player1(ypos_player1[1]),
+  .xpos_in_player2(xpos_player2[1]),
+  .ypos_in_player2(ypos_player2[1]),
   .hcount_out(hcount_out[3]),
   .hsync_out(hsync_out[3]),
   .hblnk_out(hblnk_out[3]),
@@ -164,8 +171,10 @@ u_draw_circle_player1 (
   .vsync_out(vsync_out[3]),
   .vblnk_out(vblnk_out[3]),
   .rgb_out(rgb_out[2]),
-  .xpos_out(xpos[2]),
-  .ypos_out(ypos[2])
+  .xpos_out_player1(xpos_player1[2]),
+  .ypos_out_player1(ypos_player1[2]),
+  .xpos_out_player2(xpos_player2[2]),
+  .ypos_out_player2(ypos_player2[2])
   );
 
 //drawing ball control module---------------------------------------------------------------------------------------------------------------------------------------------/         
@@ -176,8 +185,10 @@ draw_ball_ctl#(
 u_draw_ball_ctl (
   .clk_in(clk_out_65MHz),
   .rst(rst_delay),
-  .xpos_player_1(xpos[2]),
-  .ypos_player_1(ypos[2]),
+  .xpos_player_1(xpos_player1[2]),
+  .ypos_player_1(ypos_player1[2]),
+  .xpos_player_2(xpos_player2[2]),
+  .ypos_player_2(ypos_player2[2]),
   .xpos_ball(xpos_ball),
   .ypos_ball(ypos_ball),
   .player_1_score(player_1_score),

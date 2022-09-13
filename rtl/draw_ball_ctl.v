@@ -10,6 +10,8 @@ module draw_ball_ctl
     input wire rst,
     input wire [11:0] xpos_player_1,
     input wire [11:0] ypos_player_1,
+    input wire [11:0] xpos_player_2,
+    input wire [11:0] ypos_player_2,
     output reg [11:0] xpos_ball,
     output reg [11:0] ypos_ball,
     output reg [3:0] player_1_score,
@@ -63,6 +65,21 @@ module draw_ball_ctl
         begin
             ypos_ball_nxt = ypos_ball - 1;
             y_direction_nxt = 0;
+        end
+        else if( (xpos_ball - xpos_player_2)*(xpos_ball - xpos_player_2) + (ypos_ball - ypos_player_2)*(ypos_ball - ypos_player_2)
+        < ( RADIUS_BALL + PLAYERS_RADIUS ) * ( RADIUS_BALL + PLAYERS_RADIUS ) )
+        begin
+            if( xpos_player_2 <= xpos_ball )
+                x_direction_nxt = 1;
+            else
+                x_direction_nxt = 0;
+            accerelation_x_nxt = 40;
+            
+            if( ypos_player_2 <= ypos_ball )
+                y_direction_nxt = 1;
+            else
+                y_direction_nxt = 0;
+            accerelation_y_nxt = 25;
         end
         else if( (xpos_ball - xpos_player_1)*(xpos_ball - xpos_player_1) + (ypos_ball - ypos_player_1)*(ypos_ball - ypos_player_1)
         < ( RADIUS_BALL + PLAYERS_RADIUS ) * ( RADIUS_BALL + PLAYERS_RADIUS ) )
