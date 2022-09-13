@@ -17,7 +17,7 @@ module draw_ball_ctl
     );
     
     reg [11:0] xpos_ball_nxt, ypos_ball_nxt;
-    reg [4:0] player_1_score_nxt, player_2_score_nxt;
+    reg [3:0] player_1_score_nxt, player_2_score_nxt;
     reg [25:0] speed_x, speed_x_nxt, speed_y, speed_y_nxt;
     integer accerelation_x,accerelation_y, accerelation_x_nxt, accerelation_y_nxt;
     reg [1:0] x_direction, y_direction, x_direction_nxt, y_direction_nxt;
