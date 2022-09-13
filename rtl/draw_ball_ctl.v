@@ -66,7 +66,7 @@ module draw_ball_ctl
             ypos_ball_nxt = ypos_ball - 1;
             y_direction_nxt = 0;
         end
-        else if( (xpos_ball - xpos_player_2)*(xpos_ball - xpos_player_2) + (ypos_ball - ypos_player_2)*(ypos_ball - ypos_player_2)
+        else if( (xpos_ball - xpos_player_2)*(xpos_ball - xpos_player_2) + ( (ypos_ball - ypos_player_2)*(ypos_ball - ypos_player_2) )
         < ( RADIUS_BALL + PLAYERS_RADIUS ) * ( RADIUS_BALL + PLAYERS_RADIUS ) )
         begin
             if( xpos_player_2 <= xpos_ball )
@@ -79,9 +79,9 @@ module draw_ball_ctl
                 y_direction_nxt = 1;
             else
                 y_direction_nxt = 0;
-            accerelation_y_nxt = 25;
+            accerelation_y_nxt = 40;
         end
-        else if( (xpos_ball - xpos_player_1)*(xpos_ball - xpos_player_1) + (ypos_ball - ypos_player_1)*(ypos_ball - ypos_player_1)
+        else if( (xpos_ball - xpos_player_1)*(xpos_ball - xpos_player_1) + ( (ypos_ball - ypos_player_1)*(ypos_ball - ypos_player_1) )
         < ( RADIUS_BALL + PLAYERS_RADIUS ) * ( RADIUS_BALL + PLAYERS_RADIUS ) )
         begin
             if( xpos_player_1 <= xpos_ball )
@@ -100,6 +100,12 @@ module draw_ball_ctl
         begin
             player_1_score_nxt = player_1_score;
             player_2_score_nxt = player_2_score;
+            x_direction_nxt = x_direction_nxt;
+            y_direction_nxt = y_direction_nxt;
+            accerelation_x_nxt = accerelation_x_nxt;
+            accerelation_y_nxt = accerelation_y_nxt;
+            xpos_ball_nxt = xpos_ball_nxt;
+            ypos_ball_nxt = ypos_ball_nxt;
         end
         
         if( x_direction_nxt == 1)
@@ -134,10 +140,10 @@ module draw_ball_ctl
         begin
             xpos_ball <= 487;
             ypos_ball <= 362;
-            accerelation_x <= 0;
-            accerelation_y <= 0;
-            x_direction <= 3;
-            y_direction <= 3;
+            //accerelation_x_nxt <= 0;
+            //accerelation_y_nxt <= 0;
+            //x_direction_nxt <= 3;
+            //y_direction_nxt <= 3;
             player_1_score <= 0;
             player_2_score <= 0;
             speed_x <= 0;
@@ -151,10 +157,10 @@ module draw_ball_ctl
             player_2_score <= player_2_score_nxt;
             speed_x <= speed_x_nxt;
             speed_y <= speed_y_nxt;
-            accerelation_x <= accerelation_x_nxt;
-            accerelation_y <= accerelation_y_nxt;
-            x_direction <= x_direction_nxt;
-            y_direction <= y_direction_nxt;
+            //accerelation_x <= accerelation_x_nxt;
+            //accerelation_y <= accerelation_y_nxt;
+            //x_direction <= x_direction_nxt;
+            //y_direction <= y_direction_nxt;
         end
     end
 

@@ -4,7 +4,9 @@
 module top (
   input wire clk,
   input wire rst,
-  output wire pclk_mirror,
+  input wire [7:0] JB,
+  input wire [7:0] JC,
+  input wire [7:0] JA,
   output wire vs,
   output wire hs,
   output wire [3:0] r,
@@ -26,6 +28,7 @@ module top (
   wire [11:0] xpos_player1[2:0], ypos_player1[2:0], xpos_player2[2:0], ypos_player2[2:0], xpos_ball, ypos_ball;
   wire rst_delay;
   wire [3:0] player_1_score, player_2_score;
+  wire pclk_mirror;
     
 //local parameters---------------------------------------------------------------------------------------------------------------------------------------------------------------/
   localparam BALL_RADIUS = 10;
@@ -77,8 +80,9 @@ clock_delay u_clock_delay (
   .rst(rst_delay),
   .xpos_in_player1(xpos_player1[0]),
   .ypos_in_player1(ypos_player1[0]),
-  .xpos_in_player2(xpos_player2[0]),
-  .ypos_in_player2(ypos_player2[0]),
+  .JA(JA),
+  .JB(JB),
+  .JC(JC),
   .xpos_out_player1(xpos_player1[1]),
   .ypos_out_player1(ypos_player1[1]),
   .xpos_out_player2(xpos_player2[1]),

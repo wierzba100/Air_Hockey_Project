@@ -7,8 +7,9 @@ module clock_delay(
     input wire rst,
     input wire [11:0] xpos_in_player1,
     input wire [11:0] ypos_in_player1,
-    input wire [11:0] xpos_in_player2,
-    input wire [11:0] ypos_in_player2,
+    input wire [7:0] JA,
+    input wire [7:0] JB,
+    input wire [7:0] JC,
     output reg [11:0] xpos_out_player1,
     output reg [11:0] ypos_out_player1,
     output reg [11:0] xpos_out_player2,
@@ -28,8 +29,8 @@ module clock_delay(
         begin
             xpos_out_player1 <= xpos_in_player1;
             ypos_out_player1 <= ypos_in_player1;
-            xpos_out_player2 <= 700;
-            ypos_out_player2 <= 700;
+            xpos_out_player2 <= {JC[3:0],JB[7:0]};
+            ypos_out_player2 <= {JA[7:0],JC[7:4]};
         end
     end
     
