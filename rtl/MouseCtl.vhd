@@ -1,3 +1,6 @@
+--autor: u¿yto gotowego modu³u udostepnionego na zajeiach laboratoryjnych
+--autor:FW
+
 ------------------------------------------------------------------------
 -- mouse_controller.vhd
 ------------------------------------------------------------------------

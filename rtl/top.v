@@ -1,6 +1,6 @@
 `timescale 1 ns / 1 ps
 
-//top module***************************************************************************/
+//top module------------------------------------------------------------------------------------------------------------------------------------------------------------------------/
 module top (
   input wire clk,
   input wire rst,
@@ -15,57 +15,53 @@ module top (
   inout PS2Clk,
   inout PS2Data
   );
-    
-    
-//wires********************************************************************************/
-  wire [11:0] vcount_out [5:0], hcount_out [5:0];
-  wire [5:0] hsync_out, vsync_out;
-  wire [5:0] hblnk_out, vblnk_out;
+ 
+//wires----------------------------------------------------------------------------------------------------------------------------------------------------------------------------/
+  wire [11:0] vcount_out [4:0], hcount_out [4:0];
+  wire [3:0] hsync_out, vsync_out;
+  wire [4:0] hblnk_out, vblnk_out;
   wire clk_out_130MHz, locked, clk_out_65MHz;
-  wire [11:0] rgb_out[5:0];
-  wire [11:0] pixel_addr, rgb;
-  wire [11:0] xpos[3:0],ypos[3:0], xpos_ball, ypos_ball;
+  wire [11:0] rgb, rgb_out[2:0];
+  wire [11:0] pixel_addr;
+  wire [11:0] xpos[2:0],ypos[2:0], xpos_ball, ypos_ball;
   wire rst_delay;
   wire [3:0] player_1_score, player_2_score;
-  
-  
-  //Parameters
+    
+//local parameters---------------------------------------------------------------------------------------------------------------------------------------------------------------/
   localparam BALL_RADIUS = 10;
   localparam BALL_COLOR = 12'ha_b_c;
   localparam PLAYERS_RADIUS = 20;
   localparam PLAYER_1_COLOR = 12'hf_0_0;
   localparam PLAYER_2_COLOR = 12'h0_0_b;
 
-  //clock module---------------------------------------------------/  
-  clk_wiz_0 u_clk_wiz_0 (
-    //input
-    .clk_in1(clk),
-    .reset(rst),
-    //output
-    .clk_out_130MHz(clk_out_130MHz),
-    .clk_out_65MHz(clk_out_65MHz),
-    .locked(locked)
+//clock module------------------------------------------------------------------------------------------------------------------------------------------------------------------/  
+clk_wiz_0 u_clk_wiz_0 (
+  .clk_in1(clk),
+  .reset(rst),
+  .clk_out_130MHz(clk_out_130MHz),
+  .clk_out_65MHz(clk_out_65MHz),
+  .locked(locked)
   );
   
-  //ODDR module---------------------------------------------------/    
-  ODDR pclk_oddr (
-    .Q(pclk_mirror),
-    .C(clk_out_65MHz),
-    .CE(1'b1),
-    .D1(1'b1),
-    .D2(1'b0),
-    .R(1'b0),
-    .S(1'b0)
+//ODDR module-------------------------------------------------------------------------------------------------------------------------------------------------------------------------/    
+ODDR pclk_oddr (
+  .Q(pclk_mirror),
+  .C(clk_out_65MHz),
+  .CE(1'b1),
+  .D1(1'b1),
+  .D2(1'b0),
+  .R(1'b0),
+  .S(1'b0)
   );
 
-//reset-delay module------------------------------------------------/  
+//reset-delay module------------------------------------------------------------------------------------------------------------------------------------------------------------------/  
 reset_delay u_reset_delay (
-    .locked(locked),
-    .clk(clk_out_65MHz),
-    .rst_out(rst_delay)
-    );
+  .locked(locked),
+  .clk(clk_out_65MHz),
+  .rst_out(rst_delay)
+  );
    
-//mouse control module------------------------------------------------/   
+//mouse control module---------------------------------------------------------------------------------------------------------------------------------------------------------------/   
 MouseCtl my_MouseCtl(
   .ps2_clk(PS2Clk),
   .ps2_data(PS2Data),
@@ -75,7 +71,7 @@ MouseCtl my_MouseCtl(
   .rst(rst)
   );
   
-//clock-delay module------------------------------------------------/   
+//clock-delay module---------------------------------------------------------------------------------------------------------------------------------------------------------------/   
 clock_delay u_clock_delay (
   .clk(clk_out_65MHz),
   .rst(rst_delay),
@@ -85,7 +81,7 @@ clock_delay u_clock_delay (
   .ypos_out(ypos[1])
   );
   
-//timing module------------------------------------------------/  
+//timing module--------------------------------------------------------------------------------------------------------------------------------------------------------------/  
 vga_timing u_vga_timing (
    .clk_in(clk_out_65MHz),
    .rst(rst_delay),
@@ -97,7 +93,7 @@ vga_timing u_vga_timing (
    .hblnk(hblnk_out[0])
    );
   
-//background load module--------------------------------------/   
+//background load module-----------------------------------------------------------------------------------------------------------------------------------------------------/   
 draw_background u_draw_background (
   .clk_in(clk_out_65MHz),
   .hcount_in(hcount_out[0]),
@@ -117,14 +113,14 @@ draw_background u_draw_background (
   .rgb_pixel(rgb)
   );
 
-//ROM module------------------------------------------------/   
+//ROM module---------------------------------------------------------------------------------------------------------------------------------------------------------------/   
 image_rom my_image_rom(
   .clk(clk_out_65MHz),
   .address(pixel_addr),
   .rgb(rgb)
   );
 
-//drawing playground module---------------------------------/    
+//drawing playground module------------------------------------------------------------------------------------------------------------------------------------------------/    
 draw_playground u_draw_playground(
   .clk_in(clk_out_65MHz),
   .hcount_in(hcount_out[1]),
@@ -143,104 +139,88 @@ draw_playground u_draw_playground(
   .rgb_out(rgb_out[1]),
   .rgb_in(rgb_out[0])
   );
-    
-    draw_circle
-    #(
-        .COLOR(PLAYER_1_COLOR),
-        .RADIUS(PLAYERS_RADIUS)
-    )
-    u_draw_circle_player1 (
-        //input
-        .clk_in(clk_out_65MHz),
-        .rst(rst_delay),
-        .hcount_in(hcount_out[2]),
-        .hsync_in(hsync_out[2]),
-        .hblnk_in(hblnk_out[2]),
-        .vcount_in(vcount_out[2]),
-        .vsync_in(vsync_out[2]),
-        .vblnk_in(vblnk_out[2]),
-        .rgb_in(rgb_out[1]),
-        .xpos_in(xpos[1]),
-        .ypos_in(ypos[1]),
-        //output
-        .hcount_out(hcount_out[3]),
-        .hsync_out(hsync_out[3]),
-        .hblnk_out(hblnk_out[3]),
-        .vcount_out(vcount_out[3]),
-        .vsync_out(vsync_out[3]),
-        .vblnk_out(vblnk_out[3]),
-        .rgb_out(rgb_out[2]),
-        .xpos_out(xpos[2]),
-        .ypos_out(ypos[2])
-      );
-    
-      draw_ball_ctl
-      #(
-          .RADIUS_BALL(BALL_RADIUS),
-          .PLAYERS_RADIUS(PLAYERS_RADIUS)
-      )
-      u_draw_ball_ctl (
-      //input
-      .clk_in(clk_out_65MHz),
-      .rst(rst_delay),
-      .xpos_player_1(xpos[2]),
-      .ypos_player_1(ypos[2]),
-      //output
-      .xpos_ball(xpos_ball),
-      .ypos_ball(ypos_ball),
-      .player_1_score(player_1_score),
-      .player_2_score(player_2_score)
-    );
-    
-      draw_ball
-      #(
-          .COLOR(BALL_COLOR),
-          .RADIUS_BALL(BALL_RADIUS)
-      )
-      u_draw_ball (
-      //input
-      .clk_in(clk_out_65MHz),
-      .rst(rst_delay),
-      .hcount_in(hcount_out[3]),
-      .hsync_in(hsync_out[3]),
-      .hblnk_in(hblnk_out[3]),
-      .vcount_in(vcount_out[3]),
-      .vsync_in(vsync_out[3]),
-      .vblnk_in(vblnk_out[3]),
-      .rgb_in(rgb_out[2]),
-      .xpos_ball(xpos_ball),
-      .ypos_ball(ypos_ball),
-      //output
-      .hcount_out(hcount_out[4]),
-      .hsync_out(hsync_out[4]),
-      .hblnk_out(hblnk_out[4]),
-      .vcount_out(vcount_out[4]),
-      .vsync_out(vsync_out[4]),
-      .vblnk_out(vblnk_out[4]),
-      .rgb_out(rgb_out[3])
-    );
-    
-    disp_hex_mux u_disp_hex_mux (
-        //input
-        .clk(clk_out_65MHz),
-        .reset(rst_delay),
-        .hex0(player_2_score),
-        .hex1(1'b0),
-        .hex2(player_1_score),
-        .hex3(1'b0),
-        .dp_in(4'b1011),
-        //output
-        .an(an),
-        .sseg(sseg)
-    );
-    
+ 
+//drawing circle module--------------------------------------------------------------------------------------------------------------------------------------------------/      
+draw_circle#(
+  .COLOR(PLAYER_1_COLOR),
+  .RADIUS(PLAYERS_RADIUS)
+  ) 
+u_draw_circle_player1 (
+  .clk_in(clk_out_65MHz),
+  .rst(rst_delay),
+  .hcount_in(hcount_out[2]),
+  .hsync_in(hsync_out[2]),
+  .hblnk_in(hblnk_out[2]),
+  .vcount_in(vcount_out[2]),
+  .vsync_in(vsync_out[2]),
+  .vblnk_in(vblnk_out[2]),
+  .rgb_in(rgb_out[1]),
+  .xpos_in(xpos[1]),
+  .ypos_in(ypos[1]),
+  .hcount_out(hcount_out[3]),
+  .hsync_out(hsync_out[3]),
+  .hblnk_out(hblnk_out[3]),
+  .vcount_out(vcount_out[3]),
+  .vsync_out(vsync_out[3]),
+  .vblnk_out(vblnk_out[3]),
+  .rgb_out(rgb_out[2]),
+  .xpos_out(xpos[2]),
+  .ypos_out(ypos[2])
+  );
 
-always@*
-begin
-    vs = vsync_out[4];
-    hs = hsync_out[4];
-    {r, g, b} = rgb_out[3];
-    end
-
-
+//drawing ball control module---------------------------------------------------------------------------------------------------------------------------------------------/         
+draw_ball_ctl#(
+  .RADIUS_BALL(BALL_RADIUS),
+  .PLAYERS_RADIUS(PLAYERS_RADIUS)
+  )
+u_draw_ball_ctl (
+  .clk_in(clk_out_65MHz),
+  .rst(rst_delay),
+  .xpos_player_1(xpos[2]),
+  .ypos_player_1(ypos[2]),
+  .xpos_ball(xpos_ball),
+  .ypos_ball(ypos_ball),
+  .player_1_score(player_1_score),
+  .player_2_score(player_2_score)
+  );
+ 
+ //drawing ball  module-------------------------------------------------------------------------------------------------------------------------------------------------------/            
+draw_ball#(
+  .COLOR(BALL_COLOR),
+  .RADIUS_BALL(BALL_RADIUS)
+   )
+u_draw_ball (
+  .clk_in(clk_out_65MHz),
+  .rst(rst_delay),
+  .hcount_in(hcount_out[3]),
+  .hsync_in(hsync_out[3]),
+  .hblnk_in(hblnk_out[3]),
+  .vcount_in(vcount_out[3]),
+  .vsync_in(vsync_out[3]),
+  .vblnk_in(vblnk_out[3]),
+  .rgb_in(rgb_out[2]),
+  .xpos_ball(xpos_ball),
+  .ypos_ball(ypos_ball),
+  .hcount_out(hcount_out[4]),
+  .hsync_out(hs),
+  .hblnk_out(hblnk_out[4]),
+  .vcount_out(vcount_out[4]),
+  .vsync_out(vs),
+  .vblnk_out(vblnk_out[4]),
+  .rgb_out({r, g, b})
+  );
+ 
+ //display score module---------------------------------------------------------------------------------------------------------------------------------------------------/               
+disp_hex_mux u_disp_hex_mux (
+  .clk(clk_out_65MHz),
+  .reset(rst_delay),
+  .hex0(player_2_score),
+  .hex1(1'b0),
+  .hex2(player_1_score),
+  .hex3(1'b0),
+  .dp_in(4'b1011),
+  .an(an),
+  .sseg(sseg)
+  );
+    
 endmodule

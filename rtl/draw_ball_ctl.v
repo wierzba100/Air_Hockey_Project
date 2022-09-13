@@ -1,3 +1,5 @@
+//autor:FW
+
 module draw_ball_ctl
 #( parameter
     RADIUS_BALL = 10,

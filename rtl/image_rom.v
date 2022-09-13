@@ -1,3 +1,7 @@
+//autor: u¿yto gotowego modu³u udostepnionego na zajeiach laboratoryjnych
+//autor:KW
+
+
 // This is the ROM for the 'AGH48x64.png' image.
 // The image size is 48 x 64 pixels.
 // The input 'address' is a 12-bit number, composed of the concatenated

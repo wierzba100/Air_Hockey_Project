@@ -1,3 +1,5 @@
+//autor:FW
+
 `timescale 1ns / 1ps
 
 module draw_circle_ctl
