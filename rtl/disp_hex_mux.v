@@ -20,7 +20,7 @@ module disp_hex_mux
 
    // N-bit counter
    // register
-   always @(posedge clk, posedge reset)
+   always @(posedge clk or posedge reset)
       if (reset)
          q_reg <= 0;
       else
@@ -62,7 +62,7 @@ module disp_hex_mux
    // hex to seven-segment led display
    always @*
    begin
-      case(hex_in)
+      case(hex_in/2)
             4'h0: sseg[6:0] = 7'b1000000;
             4'h1: sseg[6:0] = 7'b1111001;
             4'h2: sseg[6:0] = 7'b0100100;

@@ -16,7 +16,7 @@ module clock_delay(
     output reg [11:0] ypos_out_player2
     );
     
-    always@(posedge clk)
+    always@(posedge clk or posedge rst)
     begin
         if(rst)
         begin

@@ -19,11 +19,11 @@ module top (
   );
  
 //wires----------------------------------------------------------------------------------------------------------------------------------------------------------------------------/
-  wire [11:0] vcount_out [4:0], hcount_out [4:0];
-  wire [3:0] hsync_out, vsync_out;
-  wire [4:0] hblnk_out, vblnk_out;
+  wire [11:0] vcount_out [5:0], hcount_out [5:0];
+  wire [4:0] hsync_out, vsync_out;
+  wire [5:0] hblnk_out, vblnk_out;
   wire clk_out_130MHz, locked, clk_out_65MHz;
-  wire [11:0] rgb, rgb_out[2:0];
+  wire [11:0] rgb, rgb_out[3:0];
   wire [11:0] pixel_addr;
   wire [11:0] xpos_player1[2:0], ypos_player1[2:0], xpos_player2[2:0], ypos_player2[2:0], xpos_ball, ypos_ball;
   wire rst_delay;
@@ -180,6 +180,7 @@ u_draw_players (
   .xpos_out_player2(xpos_player2[2]),
   .ypos_out_player2(ypos_player2[2])
   );
+
 
 //drawing ball control module---------------------------------------------------------------------------------------------------------------------------------------------/         
 draw_ball_ctl#(

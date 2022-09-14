@@ -35,7 +35,7 @@ module draw_circle
     output reg [11:0] ypos_out_player2
     );
     
-    reg [11:0] rgb_nxt,rgb_nxt1;
+    reg [11:0] rgb_nxt,rgb_nxt2;
     
     always@*
     begin
@@ -48,7 +48,7 @@ module draw_circle
 
     end
     
-    always @(posedge clk_in)
+    always @(posedge clk_in or posedge rst)
     begin
         if(rst)
         begin
@@ -72,8 +72,8 @@ module draw_circle
             vblnk_out <= vblnk_in;
             hcount_out <= hcount_in;
             vcount_out <= vcount_in;
-            rgb_nxt1<= rgb_nxt;
-            rgb_out <= rgb_nxt1;
+            rgb_nxt2 <= rgb_nxt;
+            rgb_out <= rgb_nxt2;
             xpos_out_player1 <= xpos_in_player1;
             ypos_out_player1 <= ypos_in_player1;
             xpos_out_player2 <= xpos_in_player2;
