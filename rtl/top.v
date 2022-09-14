@@ -14,6 +14,7 @@ module top (
   output wire [3:0] b,
   output wire [3:0] an,
   output wire [7:0] sseg,
+  output wire pclk_mirror,
   inout PS2Clk,
   inout PS2Data
   );
@@ -28,7 +29,6 @@ module top (
   wire [11:0] xpos_player1[2:0], ypos_player1[2:0], xpos_player2[2:0], ypos_player2[2:0], xpos_ball, ypos_ball;
   wire rst_delay;
   wire [3:0] player_1_score, player_2_score;
-  wire pclk_mirror;
     
 //local parameters---------------------------------------------------------------------------------------------------------------------------------------------------------------/
   localparam BALL_RADIUS = 10;

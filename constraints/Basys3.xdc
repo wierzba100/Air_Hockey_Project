@@ -205,8 +205,8 @@ set_property PACKAGE_PIN R18 [get_ports {JC[7]}]
 
 ##Pmod Header JXADC
 ##Sch name = XA1_P
-#set_property PACKAGE_PIN J3 [get_ports {JXADC[0]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JXADC[0]}]
+set_property PACKAGE_PIN J3 [get_ports {pclk_mirror}]				
+    set_property IOSTANDARD LVCMOS33 [get_ports {pclk_mirror}]
 ##Sch name = XA2_P
 #set_property PACKAGE_PIN L3 [get_ports {JXADC[1]}]				
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JXADC[1]}]
