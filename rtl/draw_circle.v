@@ -35,7 +35,9 @@ module draw_circle
     output reg [11:0] ypos_out_player2
     );
     
-    reg [11:0] rgb_nxt,rgb_nxt2,rgb_nxt3;
+    reg [11:0] rgb_nxt,rgb_nxt2,rgb_nxt3,rgb_nxt4,hcount_nxt,vcount_nxt, xpos_in_player1_nxt,ypos_in_player1_nxt,xpos_in_player2_nxt,ypos_in_player2_nxt;
+    reg hsync_nxt, vsync_nxt, hblnk_nxt, vblnk_nxt;
+    
     
     always@*
     begin
@@ -66,21 +68,29 @@ module draw_circle
         end
         else
         begin
-            hsync_out <= hsync_in;
-            vsync_out <= vsync_in;
-            hblnk_out <= hblnk_in;
-            vblnk_out <= vblnk_in;
-            hcount_out <= hcount_in;
-            vcount_out <= vcount_in;
-            //rgb_nxt2 <= rgb_nxt;
-             
-            //rgb_nxt3 <= rgb_nxt2;
-
-            rgb_out <= rgb_nxt;
-            xpos_out_player1 <= xpos_in_player1;
-            ypos_out_player1 <= ypos_in_player1;
-            xpos_out_player2 <= xpos_in_player2;
-            ypos_out_player2 <= ypos_in_player2;
+            hcount_nxt  <= hcount_in;
+            vcount_nxt  <= vcount_in;
+            hsync_nxt   <= hsync_in;
+            vsync_nxt   <= vsync_in;
+            hblnk_nxt   <= hblnk_in;
+            vblnk_nxt   <= vblnk_in;
+            xpos_in_player1_nxt <= xpos_in_player1;
+            ypos_in_player1_nxt <= ypos_in_player1;
+            xpos_in_player2_nxt <= xpos_in_player2;
+            ypos_in_player2_nxt <= ypos_in_player2;
+            ypos_in_player2_nxt <= ypos_in_player2;
+            
+            hcount_out  <= hcount_nxt;
+            vcount_out  <= vcount_nxt;
+            hsync_out   <= hsync_nxt;
+            vsync_out   <= vsync_nxt;
+            hblnk_out   <= hblnk_nxt;
+            vblnk_out   <= vblnk_nxt;
+            rgb_out     <= rgb_nxt; 
+            xpos_out_player1 <= xpos_in_player1_nxt;
+            ypos_out_player1 <= ypos_in_player1_nxt;
+            xpos_out_player2 <= xpos_in_player2_nxt;
+            ypos_out_player2 <= ypos_in_player2_nxt;
         end
     end
            

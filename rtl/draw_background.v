@@ -28,21 +28,25 @@ module draw_background(
    
 //registers
   reg hsync_nxt, vsync_nxt, hblnk_nxt, vblnk_nxt;
-    
+  reg [11:0] hcount_nxt, vcount_nxt;
 //logic
   always @(posedge clk_in)
       begin
-        hsync_out <= hsync_nxt;
-        vsync_out <= vsync_nxt;
-        hblnk_out <= hblnk_nxt;
-        vblnk_out <= vblnk_nxt;
-        hcount_out <= hcount_in;
-        vcount_out <= vcount_in;
-        hsync_nxt  <=  hsync_in;
-        vsync_nxt  <=  vsync_in;
-        hblnk_nxt  <=  hblnk_in;
-        vblnk_nxt  <=  vblnk_in;
-        rgb_out <= rgb_pixel;  //background uploading
+        hsync_nxt     <=  hsync_in;
+        vsync_nxt     <=  vsync_in;
+        hblnk_nxt     <=  hblnk_in;
+        vblnk_nxt     <=  vblnk_in;
+        //hcount_nxt    <=  hcount_in;
+        //vcount_nxt    <=  vcount_in;
+        //rgb_pixel_nxt <=  rgb_pixel; to juz jest w image rom
+        
+        hsync_out     <= hsync_nxt;
+        vsync_out     <= vsync_nxt;
+        hblnk_out     <= hblnk_nxt;
+        vblnk_out     <= vblnk_nxt;
+        hcount_out    <= hcount_in;
+        vcount_out    <= vcount_in;
+        rgb_out       <= rgb_pixel;  //background uploading
       end 
        
 //assigns      
