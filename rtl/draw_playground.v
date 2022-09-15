@@ -66,7 +66,7 @@ module draw_playground(
         else if (hcount_in == 1023)                                                                    rgb_nxt = 12'h0_0_f;
                                                                                                             
         //LINIE BOISKA                                                                                      
-         if (hcount_in >= 39  && hcount_in <= 46  && vcount_in >= 39  && vcount_in <= 728 )            rgb_nxt = WHITE_COLOUR;   //vertical
+        else if (hcount_in >= 39  && hcount_in <= 46  && vcount_in >= 39  && vcount_in <= 728 )            rgb_nxt = WHITE_COLOUR;   //vertical
         else if (hcount_in >= 977 && hcount_in <= 984 && vcount_in >= 39  && vcount_in <= 728 )        rgb_nxt = WHITE_COLOUR;   //vertical
         else if (hcount_in >= 39  && hcount_in <= 984 && vcount_in >= 39  && vcount_in <= 46 )         rgb_nxt = WHITE_COLOUR;   //horizontal
         else if (hcount_in >= 39  && hcount_in <= 984 && vcount_in >= 721 && vcount_in <= 728 )        rgb_nxt = WHITE_COLOUR;   //horizontal
