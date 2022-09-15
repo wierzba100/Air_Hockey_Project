@@ -50,7 +50,7 @@ module draw_circle
 
     end
     
-    always @(posedge clk_in or posedge rst)
+    always @(posedge clk_in)
     begin
         if(rst)
         begin

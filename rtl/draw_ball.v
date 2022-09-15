@@ -38,7 +38,7 @@ module draw_ball
             rgb_nxt = rgb_in;
     end
     
-    always @(posedge clk_in or posedge rst)
+    always @(posedge clk_in)
     begin
         if(rst)
         begin

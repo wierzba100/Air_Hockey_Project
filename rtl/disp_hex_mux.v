@@ -20,7 +20,7 @@ module disp_hex_mux
 
    // N-bit counter
    // register
-   always @(posedge clk or posedge reset)
+   always @(posedge clk)
       if (reset)
          q_reg <= 0;
       else

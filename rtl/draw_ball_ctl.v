@@ -116,7 +116,7 @@ module draw_ball_ctl
             speed_nxt = speed + accerelation;
     end
     
-    always @(posedge clk_in or posedge rst)
+    always @(posedge clk_in)
     begin
         if(rst)
         begin
